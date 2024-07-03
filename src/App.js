@@ -1,10 +1,13 @@
 import { Field, Form, Formik } from 'formik';
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ApiCalling from './ApiCalling';
 
 function App() {
-  const [data, setData] = useState([]);
+  
+  const initialData = JSON.parse(localStorage.getItem('MyKey')) ;
+  
+  const [data, setData] = useState(initialData);
   const [id, setId] = useState(null);
   const [value, setValue] = useState({
     name: '',
@@ -13,9 +16,7 @@ function App() {
     marks2: '',
     marks3: '',
   });
-
- 
- 
+  
   const handleSubmit = (values, { resetForm }) => {
     if (id !== null) {
       let copydata = [...data];
@@ -34,13 +35,13 @@ function App() {
       marks3: '',
     });
   };
-
+  
   const deleteData = (i) => {
     let copy = [...data];
     copy.splice(i, 1);
     setData(copy);
   };
-
+  
   const updateData = (el, i) => {
     setValue({
       name: el.name,
@@ -51,6 +52,9 @@ function App() {
     });
     setId(i);
   };
+  
+  localStorage.setItem('MyKey', JSON.stringify(data));
+  
 
   return (
     <div className="App">
@@ -95,7 +99,6 @@ function App() {
         </tbody>
       </table>
     </div>
-    
   );
 }
 
